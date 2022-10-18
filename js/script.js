@@ -1,15 +1,16 @@
 /* 
-    L'utente clicca su un bottone che genererà una griglia di gioco quadrata.
-    Ogni cella ha un numero progressivo, da 1 a 100.
-    Ci saranno quindi 10 caselle per ognuna delle 10 righe.
-    Quando l'utente clicca su ogni cella, la cella cliccata si colora di azzurro ed emetto un messaggio in console con il numero della cella cliccata.
+    [*] Copiamo la griglia fatta ieri nella nuova repo e aggiungiamo la logica del gioco.
+    [] Il computer deve generare 16 numeri casuali: le bombe.
+    [] I numeri nella lista delle bombe non possono essere duplicati.
+    [] In seguito l'utente clicca su una cella: se il numero è presente nella lista dei numeri generati, la cella si colora di rosso e la partita termina, altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
+    [] La partita termina quando il giocatore clicca su una bomba o raggiunge il numero massimo possibile di numeri consentiti.
+    [] Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha cliccato su una cella che non era una bomba.
 */
 
 /*                             HEADER                        */
 // Creo l'header con il logo e il titolo
 const headerTitle = document.querySelector(".logo");
-headerTitle.innerHTML += 
-                            `<img src="img/logo.png" alt="">
+headerTitle.innerHTML +=   `<img src="img/logo.png" alt="">
                             <h3>Campo Minato</h3>`;
 
 // Aggiungo bottone play
@@ -18,10 +19,13 @@ headerBtn.innerHTML += `<button>Play</button>`;
 headerBtn.addEventListener("click", reload);
 
 /*                              MAIN                         */
-// Creo array
+// Creo array di numeri da 1 a 100
 const numbersArray = [];
 const squareGrid = 100;
 const generetorNumber = isDuoblet(squareGrid);
+
+// Creo array di bombe (16 numeri casuali da 1 a 100)
+const arrayBombs = [];
 
 // Ordino i numeri in modo crescente
 for (let i = 0; i < numbersArray.length; i++) {
@@ -57,10 +61,10 @@ for(let i = 0; i < generetorNumber.length; i++) {
 }
 
 
-// FUNZIONI
-// Creo funzione che genera i numeri da 1 a 100 
+/*                            FUNZIONI                      */
+
 /**
- * Description
+ * Description funzione che genera i numeri da 1 a 100 
  * @param {number} min
  * @param {number} max
  * @returns {number} numero generato
@@ -68,9 +72,9 @@ for(let i = 0; i < generetorNumber.length; i++) {
 function generetedRndNumber (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-// Creo funzione che evita i doppioni
+
 /**
- * Description
+ * Description funzione che evita i doppioni
  * @param {number} arrayLenght
  * @returns {array}
  */
@@ -83,9 +87,9 @@ function isDuoblet (arrayLenght) {
     }
     return numbersArray;
 }
-// Creo elemento square da inserire nel DOM
+
 /**
- * Description
+ * Description creo elemento square da inserire nel DOM
  * @param {number} innerNumber
  * @returns {element} elemento square
  */
@@ -96,17 +100,27 @@ function createSquare (innerNumber) {
     return square;
 }
 
-// Creo funzione che al click si colora di azzurro la cella e in console stampa il numero 
+/**
+ * Description funzione che al click si colora di azzurro la cella e in console stampa il numero 
+ * @returns {number} valore all'interno della cella selezionata al click
+ */
 function toColorSquare () {
     const clickSquare = parseInt(this.textContent);
     this.classList.add("blue");
     console.log("il valore di questa cella è:", clickSquare);
 }
 
-// Creo funzione che al click su bottone header ricarica la griglia
+
+/**
+ * Description funzione che al click su bottone header ricarica la griglia
+ * @returns {reload} reload della griglia di gioco
+ */
 function reload () {
     headerBtn = location.reload();
+    
 }
+
+
 
 
 /*                             FOOTER                        */
