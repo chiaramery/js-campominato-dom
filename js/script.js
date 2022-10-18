@@ -23,19 +23,16 @@ headerBtn.addEventListener("click", reload);
 // BOMBE
 // Creo array di bombe (16 numeri casuali da 1 a 100)
 const arrayBombs = [];
+let i = 0;
 while(arrayBombs.length < 16) {
     const rndNumberBombs = rndNumberBomb(1, 100);
     if(!arrayBombs.includes(rndNumberBombs)) {
         arrayBombs.push(rndNumberBombs);
     }
-    console.log(rndNumberBombs);
+    i++;
 }
 console.log(arrayBombs);
 
-function redBomb () {
-    const bomb = document.getElementsByClassName("grid");
-    bomb.classList.add("red");
-}
 // Creo array di numeri da 1 a 100
 const numbersArray = [];
 const squareGrid = 100;
@@ -65,13 +62,16 @@ for (let i = 0; i < numbersArray.length; i++) {
 const grid = document.querySelector(".grid");
 for(let i = 0; i < generetorNumber.length; i++) {
     const thisNumber = generetorNumber[i];
-
     // Creo elemento 
     const thisSquare = createSquare(thisNumber);
-
-    // Aggiungo addEventListener al click sull'elemento
-    thisSquare.addEventListener("click", toColorSquare);
-
+    for(let k = 0; k < generetorNumber.length; k++) {
+        // Aggiungo addEventListener al click sull'elemento
+        if(arrayBombs.includes(i)) {
+            thisSquare.addEventListener("click", toColorSquare);
+        } else {
+            thisSquare.addEventListener("click", redBomb);
+        }
+    }
     // Elemento aggiunto nel DOM
     grid.append(thisSquare);
 }
@@ -124,10 +124,16 @@ function toColorSquare () {
     this.classList.add("blue");
     console.log("il valore di questa cella è:", clickSquare);
 }
-//PROVA SQUARE BOMB
-if(clickSquare.includes(arrayBombs.textContent)) {
-    squareGrid.classList.add("red");
+/**
+ * Description funzione che al click cambia background alle bombe
+ * @returns {any} elemento cambiato di background
+ */
+function redBomb () {
+    const clickBomb = this.textContent;
+    this.classList.add("red");
+    console.log("é una bomba:", clickBomb);
 }
+
 /**
  * Description funzione che al click su bottone header ricarica la griglia
  * @returns {reload} reload della griglia di gioco
